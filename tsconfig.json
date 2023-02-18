@@ -1,6 +1,11 @@
 {
+  "exclude": ["./bin", "./dist"],
   "extends": "@tsconfig/node16-strictest-esm/tsconfig.json",
   "compilerOptions": {
-    "noEmit": true
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true
   }
 }

@@ -1,0 +1,43 @@
+name: ci-node
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - run: npm install
+      - run: npm run lint
+      - run: npm run build
+
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [16, 18]
+        # TODO: Run test for Node.js v14
+        # node: [14, 16, 18]
+        os: [ubuntu-latest, macos-latest]
+        # TODO: Run test for Windows
+        # os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+      - run: npm run test
