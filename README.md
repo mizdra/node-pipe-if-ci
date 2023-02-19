@@ -24,6 +24,16 @@ Examples:
       pipe-if-ci 'tsc --noEmit' --pipe 'reviewdog -f=tsc -reporter=github-check -fail-on-error'
 ```
 
+## Programmable API
+
+See [src/index.js](https://github.com/mizdra/node-pipe-if-ci/blob/main/src/index.js) for full API implementation and details.
+
+```js
+import { pipeIfCI } from 'pipe-if-ci';
+
+await pipeIfCI('tsc --noEmit', { pipe: 'reviewdog -f=tsc -reporter=github-check -fail-on-error' });
+```
+
 ## License
 
 MIT
