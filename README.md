@@ -5,7 +5,7 @@ Node.js implementation of a command to run pipeline only when in a CI environmen
 ## Installation
 
 ```console
-$ npm install -g pipe-if-ci
+$ npm install -D pipe-if-ci
 ```
 
 ## Usage
