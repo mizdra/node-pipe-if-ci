@@ -20,7 +20,7 @@
     "lint": "run-s -c lint:*",
     "lint:tsc": "tsc",
     "lint:prettier": "prettier --check .",
-    "test": "node --test"
+    "test": "vitest"
   },
   "repository": {
     "type": "git",

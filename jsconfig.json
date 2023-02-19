@@ -1,11 +1,12 @@
 {
-  "exclude": ["./bin", "./dist"],
+  "exclude": ["./bin", "./dist", "./vite.config.js"],
   "extends": "@tsconfig/node16-strictest-esm/tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
+    "noEmit": false,
     "emitDeclarationOnly": true
   }
 }

@@ -1,5 +1,4 @@
-import assert from 'node:assert';
-import test from 'node:test';
+import { assert, it, describe } from 'vitest';
 import { spawn } from 'node:child_process';
 import { waitExit } from './util.js';
 import { fileURLToPath } from 'node:url';
@@ -14,22 +13,22 @@ const isWindows = process.platform === 'win32';
 const envForNonCI = { ...process.env, CI: 'false' };
 const envForCI = { ...process.env, CI: 'true' };
 
-test('only execute the first command in a non-CI environment', async () => {
+it('only execute the first command in a non-CI environment', async () => {
   const p = spawn(bin, ['echo 1', '--pipe', 'echo 2'], { env: envForNonCI });
   assert.strictEqual(await readAll(p.stdout), '1\n');
 });
 
-test('pipe the output of the first command to the second command in a CI environment', async () => {
+it('pipe the output of the first command to the second command in a CI environment', async () => {
   const p1 = spawn(bin, ['echo 1', '--pipe', 'echo 2'], { env: envForCI });
   assert.strictEqual(await readAll(p1.stdout), '2\n');
   const p2 = spawn(bin, ['echo 1', '--pipe', 'cat'], { env: envForCI });
   assert.strictEqual(await readAll(p2.stdout), '1\n');
 });
 
-test('kill by signal', async (t) => {
+describe('kill by signal', () => {
   const cases = /** @type {const} */ (['SIGTERM', 'SIGINT', isWindows && 'SIGBREAK', 'SIGHUP']).filter(notFalse);
   for (const signal of cases) {
-    await t.test(signal, async () => {
+    it(signal, async () => {
       const p = spawn(bin, ['cat', '--pipe', 'cat']);
       p.kill(signal);
       assert.deepStrictEqual(await waitExit(p), { code: null, signal });
@@ -38,9 +37,8 @@ test('kill by signal', async (t) => {
 });
 
 // This test fails because stdin cannot be read.
-// Probably due to a bug in the Node.js test runner.
 // TODO: Fix this test.
-test('forward the signal to the second command, skipping the first command', { skip: true }, async () => {
+it.fails('forward the signal to the second command, skipping the first command', async () => {
   const p1 = spawn(bin, [logSignal, '--pipe', 'cat'], { env: envForCI, stdio: 'pipe' });
   p1.kill('SIGINT');
   p1.kill('SIGTERM');
@@ -52,7 +50,7 @@ test('forward the signal to the second command, skipping the first command', { s
   assert.strictEqual(await readAll(p2.stdout), 'SIGINT\n');
 });
 
-test('exit code', async () => {
+it('exit code', async () => {
   assert.deepStrictEqual(await waitExit(spawn(bin, ['exit 1', '--pipe', 'echo'], { env: envForNonCI })), {
     code: 1,
     signal: null,
@@ -67,7 +65,7 @@ test('exit code', async () => {
   });
 });
 
-test('accept --pipe and -p option', async () => {
+it('accept --pipe and -p option', async () => {
   assert.deepStrictEqual(await waitExit(spawn(bin, ['echo 1', '-p', 'echo 2'], { env: envForNonCI })), {
     code: 0,
     signal: null,
@@ -78,7 +76,7 @@ test('accept --pipe and -p option', async () => {
   });
 });
 
-test('allow command containing pipes', async () => {
+it('allow command containing pipes', async () => {
   const p1 = spawn(bin, ['echo 1 | cat', '-p', 'echo'], { env: envForNonCI });
   assert.strictEqual(await readAll(p1.stdout), '1\n');
   const p2 = spawn(bin, ['echo 1 | cat', '-p', 'echo 2 | cat'], { env: envForCI });
