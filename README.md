@@ -63,6 +63,8 @@ This is where `pipe-if-ci` comes in: with `pipe-if-ci`, you can easily write an 
 
 Try it out! :)
 
+- [Example of pull request](https://github.com/mizdra/problem-matcher-test/pull/2/files)
+
 ![The screenshot of GitHub Annotations with pipe-if-ci](docs/github-annotations-with-pipe-if-ci.png)
 
 ## Programmable API
