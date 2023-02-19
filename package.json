@@ -32,7 +32,13 @@
     "type": "git",
     "url": "git+ssh://git@github.com/mizdra/node-pipe-if-ci.git"
   },
-  "keywords": [],
+  "keywords": [
+    "ci",
+    "npm-scripts",
+    "github-actions",
+    "github-annotations",
+    "problem-matchers"
+  ],
   "author": "mizdra <pp.mizdra@gmail.com>",
   "license": "MIT",
   "bugs": {
