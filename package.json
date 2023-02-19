@@ -18,7 +18,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "run-s -c lint:*",
-    "lint:tsc": "tsc",
+    "lint:tsc": "tsc -p jsconfig.json",
     "lint:prettier": "prettier --check .",
     "test": "vitest"
   },
