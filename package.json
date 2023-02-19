@@ -17,12 +17,14 @@
     "src",
     "!src/**/*.test.js",
     "!src/test",
-    "dist"
+    "dist",
+    "!dist/**/*.test.js",
+    "!dist/test"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p jsconfig.json --noEmit false --emitDeclarationOnly",
     "lint": "run-s -c lint:*",
-    "lint:tsc": "tsc -p jsconfig.json",
+    "lint:tsc": "tsc -p jsconfig.json --noEmit",
     "lint:prettier": "prettier --check .",
     "test": "vitest"
   },
