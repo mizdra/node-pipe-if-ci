@@ -1,6 +1,6 @@
 {
   "name": "pipe-if-ci",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Node.js implementation of a command to run pipeline only when in a CI environment.",
   "type": "module",
   "bin": {
