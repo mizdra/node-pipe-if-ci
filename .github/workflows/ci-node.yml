@@ -27,9 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [16, 18]
-        # TODO: Run test for Node.js v14
-        # node: [14, 16, 18]
+        node: [14, 16, 18]
         os: [ubuntu-latest, macos-latest]
         # TODO: Run test for Windows
         # os: [ubuntu-latest, macos-latest, windows-latest]
