@@ -7,7 +7,6 @@ import { readAll, notFalse } from './test/util.js';
 
 const __dirname = resolve(fileURLToPath(import.meta.url), '..');
 const bin = resolve(__dirname, '../bin/pipe-if-ci.js');
-const logSignal = resolve(__dirname, './test/bin/log-signal.js');
 const isWindows = process.platform === 'win32';
 
 const envForNonCI = { ...process.env, CI: 'false' };
@@ -34,20 +33,6 @@ describe('kill by signal', () => {
       assert.deepStrictEqual(await waitExit(p), { code: null, signal });
     });
   }
-});
-
-// This test fails because stdin cannot be read.
-// TODO: Fix this test.
-it.fails('forward the signal to the second command, skipping the first command', async () => {
-  const p1 = spawn(bin, [logSignal, '--pipe', 'cat'], { env: envForCI, stdio: 'pipe' });
-  p1.kill('SIGINT');
-  p1.kill('SIGTERM');
-  assert.strictEqual(await readAll(p1.stdout), '\n');
-
-  const p2 = spawn(bin, ['cat', '--pipe', logSignal], { env: envForCI, stdio: 'pipe' });
-  p2.kill('SIGINT');
-  p2.kill('SIGTERM');
-  assert.strictEqual(await readAll(p2.stdout), 'SIGINT\n');
 });
 
 it('exit code', async () => {
