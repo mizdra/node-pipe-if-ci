@@ -6,12 +6,15 @@ import { resolve } from 'node:path';
 import { readAll, notFalse } from './test/util.js';
 
 const __dirname = resolve(fileURLToPath(import.meta.url), '..');
-const pic = resolve(__dirname, '../bin/pipe-if-ci.js');
-const cat = resolve(__dirname, './test/bin/cat.js');
-const echo = resolve(__dirname, './test/bin/echo.js');
-const ret = resolve(__dirname, './test/bin/return.js');
 
 const isWindows = process.platform === 'win32';
+
+// NOTE: Since shebang does not work on Windows, we must explicitly use the node command to execute `.js`.
+const prefixForWindows = isWindows ? 'node ' : '';
+const pic = prefixForWindows + resolve(__dirname, '../bin/pipe-if-ci.js');
+const cat = prefixForWindows + resolve(__dirname, './test/bin/cat.js');
+const echo = prefixForWindows + resolve(__dirname, './test/bin/echo.js');
+const ret = prefixForWindows + resolve(__dirname, './test/bin/return.js');
 
 const envForNonCI = { ...process.env, CI: 'false' };
 const envForCI = { ...process.env, CI: 'true' };
